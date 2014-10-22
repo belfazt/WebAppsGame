@@ -3,7 +3,6 @@ var screenX = $(window).width()-10;
 var game = new Phaser.Game(screenX, screenY, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-
     game.load.tilemap('level1', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles-1', 'assets/tiles-1.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
@@ -11,9 +10,7 @@ function preload() {
     game.load.image('starSmall', 'assets/star.png');
     game.load.image('starBig', 'assets/star2.png');
     game.load.image('background', 'assets/background2.png');
-
 }
-
 var map;
 var tileset;
 var layer;
@@ -25,98 +22,64 @@ var jumpButton;
 var bg;
 
 function create() {
-
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
     game.stage.backgroundColor = '#000000';
-
     bg = game.add.tileSprite(0, 0, screenX, screenY, 'background');
     bg.fixedToCamera = true;
-
     map = game.add.tilemap('level1');
-
     map.addTilesetImage('tiles-1');
-
     map.setCollisionByExclusion([ 13, 14, 15, 16, 46, 47, 48, 49, 50, 51 ]);
-
     layer = map.createLayer('Tile Layer 1');
-
     //  Un-comment this on to see the collision tiles
     // layer.debug = true;
-
     layer.resizeWorld();
-
     game.physics.arcade.gravity.y = 250;
-
     player = game.add.sprite(32, 32, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
-
     player.body.bounce.y = 0.2;
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 16);
-
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
-
     game.camera.follow(player);
-
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
 }
 
 function update() {
-
     game.physics.arcade.collide(player, layer);
-
     player.body.velocity.x = 0;
-
-    if (cursors.left.isDown)
-    {
+    if (cursors.left.isDown){
         player.body.velocity.x = -200;
-
-        if (facing != 'left')
-        {
+        if (facing != 'left'){
             player.animations.play('left');
             facing = 'left';
         }
     }
-    else if (cursors.right.isDown)
-    {
+    else if (cursors.right.isDown){
         player.body.velocity.x = 200;
-
-        if (facing != 'right')
-        {
+        if (facing != 'right'){
             player.animations.play('right');
             facing = 'right';
         }
     }
-    else
-    {
-        if (facing != 'idle')
-        {
+    else{
+        if (facing != 'idle'){
             player.animations.stop();
-
-            if (facing == 'left')
-            {
+            if (facing == 'left'){
                 player.frame = 0;
             }
-            else
-            {
+            else{
                 player.frame = 5;
             }
-
             facing = 'idle';
         }
     }
-    
-    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer)
-    {
+    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer){
         player.body.velocity.y = -210;
         jumpTimer = game.time.now + 650;
     }
-
 }
 
 function render () {
