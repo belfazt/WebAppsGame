@@ -13,7 +13,7 @@
 			try{
 				if($this->checkUser($username) && $this->checkEmail($email)){
 					//$hashedpass=password_hash($password, PASSWORD_BCRYPT);
-					$hashedpass = crypt($password);
+					$hashedpass = password_hash($password, PASSWORD_DEFAULT);
 					$statement = "INSERT INTO `player` VALUES (:username, :email, :password, DEFAULT, DEFAULT, DEFAULT)";
 					$query = $this->database->prepare($statement);
 					$query->bindParam(':username',$username, PDO::PARAM_STR);
@@ -50,7 +50,7 @@
 				$query = $this->database->prepare($statement);
 				$query->bindParam(':email',$email, PDO::PARAM_STR);
 				$query->execute();
-				$result = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+				$result = $query->fetchAll(PDO::FETCH_ASSOC);
 
 				if(count($result) == 0){
 					return true;
@@ -79,7 +79,7 @@
 				$query = $this->database->prepare($statement);
 				$query->bindParam(':user',$username, PDO::PARAM_STR);
 				$query->execute();
-				$result = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+				$result = $query->fetchAll(PDO::FETCH_ASSOC);
 				if(count($result) == 0){
 					return true;
 				}
@@ -117,11 +117,13 @@
 				//var_dump($ispass);
 				if(password_verify($password, $result['password'])){
 					//echo "Success<br>";
-					$this->loadPlayer($username);
+					//$this->loadPlayer($username);
+					return true;
 				}
 				else{
 					//echo "Not Success<br>";
 					throw new Exception("Sorry, something went wrong", 1);
+					return false;
 				}
 			}
 			catch(Exception $e){
