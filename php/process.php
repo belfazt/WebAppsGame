@@ -118,6 +118,7 @@
 				if(password_verify($password, $result['password'])){
 					//echo "Success<br>";
 					//$this->loadPlayer($username);
+					setcookie("uname", $result["username"]);
 					return true;
 				}
 				else{

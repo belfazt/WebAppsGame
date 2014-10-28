@@ -1,5 +1,5 @@
 <?php
-	require_once('process.php');
+	require_once('php/process.php');
 
 	$info = new info();
 	header('Content-Type: application/json');

@@ -1,6 +1,10 @@
 var screenY = $(window).height() -16;
 var screenX = $(window).width()-10;
+var pJSON = getPlayerJson();
 var game = new Phaser.Game(screenX, screenY, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update, render: render });
+
+
+
 
 function preload() {
     game.load.tilemap('level1', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);

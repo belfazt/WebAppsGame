@@ -23,6 +23,8 @@
 
 	$info = new info();
 
-	$info->login($_POST["username"], $_POST['password']);
+	if($info->login($_POST["username"], $_POST['password'])){
+		echo "Succesfully logged in!";
+	}
 
 ?>
