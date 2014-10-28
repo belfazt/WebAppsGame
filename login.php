@@ -1,4 +1,4 @@
-<form action="" method="POST" role="form">
+<form method="POST" role="form">
 	<legend>Form title</legend>
 
 	<div class="form-group">
@@ -6,7 +6,6 @@
 		<input type="text" class="form-control" name="username" placeholder="Input field">
 		<input type="password" class="form-control" name="password" placeholder="Input field">
 	</div>
-
 	
 
 	<button type="submit" class="btn btn-primary">Submit</button>
@@ -23,7 +22,7 @@
 
 	$info = new info();
 
-	if($info->login($_POST["username"], $_POST['password'])){
+	if(isset($_POST["username"]) && $info->login($_POST["username"], $_POST['password'])){
 		echo "Succesfully logged in!";
 	}
 

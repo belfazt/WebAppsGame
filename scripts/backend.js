@@ -17,10 +17,10 @@ function requestJson(){
         	console.log(data);
             json = data
             playerJ = json;
+            
             return json;
         }
 	});
-	return json;
 }
 
 function getPlayerJson(){
